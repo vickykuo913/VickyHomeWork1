@@ -1,0 +1,42 @@
+﻿@model IEnumerable<VickyHomeWork1.Models.ViewModels.MoneyViewModel>
+
+@{
+    Layout = null;
+}
+
+<style>
+    .table-reflow {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .table-reflow td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover table-reflow">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>類別</th>
+                    <th>日期</th>
+                    <th>金額</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@item.Category</td>
+                        <td>@item.Date.ToString()</td>
+                        <td>@item.Amount.ToString("#,0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
