@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+.table-reflow {
+    counter-reset: serial-number; /* Set the serial number counter to 0 */
+}
+
+.table-reflow td:first-child:before {
+    counter-increment: serial-number; /* Increment the serial number counter */
+    content: counter(serial-number); /* Display the counter */
+}
