@@ -10,34 +10,20 @@ namespace VickyHomeWork1.Models.ViewModels
 {
     public class MoneyDataList
     {
-        public int No { get; set; }
-        public string Class { get; set; }
-        public DateTime Date { get; set; }
-        public string Money { get; set; }
-
-
-        public static List<MoneyViewModel> GetMoneyList()
+        public static IEnumerable<MoneyViewModel> GetMoneyList()
         {
-            //var fileContents =File.ReadAllText(HostingEnvironment.MapPath(@"~/App_Data/file.txt"));
-            
-            List<MoneyViewModel> moneyList = new List<MoneyViewModel>();
+            var fileContents = File.ReadAllText(HostingEnvironment.MapPath(@"~/App_Data/file.txt"));
+            var source = fileContents.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries)
+                                     .ToList();
+            var moneyList = from line in source
+                            let item = line.Split(';')
+                            select new MoneyViewModel
+                            {
+                                Date     = item[0],
+                                Category = item[1],
+                                Amount   = int.Parse(item[2])
+                            };
 
-            string[] aryDA;
-            string line = string.Empty;
-            string fileName = HostingEnvironment.MapPath(@"~/App_Data/file.txt");
-            StreamReader sr = new StreamReader(fileName);
-
-            while ((line = sr.ReadLine()) != null)
-            {
-                aryDA=line.Split(char.Parse(";"));
-
-                moneyList.Add(new MoneyViewModel()
-                {
-                    Date = aryDA[0],
-                    Category = aryDA[1],
-                    Amount = int.Parse( aryDA[2])
-                });
-            }
             return moneyList;
 
 
@@ -57,6 +43,5 @@ namespace VickyHomeWork1.Models.ViewModels
             //}
             //return moneyList;
         }
-
     }
 }
